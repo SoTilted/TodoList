@@ -1,3 +1,4 @@
-export default function createTask(title,description,priority,dueDate){
-    return {title,description,priority,dueDate};
+export default function createTask(title,description,priority,dueDate,id,completed){
+    return {title,description,priority,dueDate,id,completed};
 }
+
