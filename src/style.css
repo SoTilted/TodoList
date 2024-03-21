@@ -1,154 +1,247 @@
 *{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-    height: 100vh;
-    display: flex;
+  height: 100vh;
+  display: flex;
 
 }
 
 .side-bar,.projects,.tasks,.general {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
 }
 .content {
-    flex: 1;
-    padding: 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15vw, 400px));
-    gap: 20px;
-    overflow: auto;
-}
-
-.side-bar {
-    background-color: antiquewhite;
-    width: max(15vw, 200px);
-    box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
-    gap: 50px;
-    padding: 0 45px 0 10px;
-}
-
-button {
-    font-size: 1.3em;
-    text-align: start;
-    border: none;
-    background-color: antiquewhite;
-    color: rgb(45, 45, 45);
-}
-button:hover {
-    background-color: #f0e1cd;
-    cursor: pointer;
+  
+  flex: 1;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15vw, 400px));
+  gap: 100px;
+  overflow: auto;
+  
     
 }
 
+.side-bar {
+  background-color: antiquewhite;
+  width: max(15vw, 200px);
+  box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
+  gap: 50px;
+  padding: 0 45px 0 10px;
+}
+
+button {
+  font-size: 1.3em;
+  text-align: start;
+  border: none;
+  background-color: antiquewhite;
+  color: rgb(45, 45, 45);
+}
+button:hover {
+  background-color: #f0e1cd;
+  cursor: pointer;
+  
+}
+
 h1 {
-    border-bottom: 3px solid black;
-    max-width: 400px;
-    overflow:scroll;
+  border-bottom: 3px solid black;
+  max-width: 400px;
+  overflow:scroll;
 }
 
 .project-card {
-    display: flex;
-    flex-direction: column;
-    background-color: antiquewhite;
-    font-size: 1.3rem;
-    border-radius: 16px;
-    border-left: 12px solid;
-    border-left-color: black;
-    padding: 20px;
-    box-shadow: 10px 5px 5px rgba(0,0,0,0.3);
-    position: relative;
-    height: min(600px,100vh);
+  display: flex;
+  flex-direction: column;
+  background-color: antiquewhite;
+  font-size: 1.3rem;
+  border-radius: 16px;
+  border-left: 12px solid;
+  border-left-color: black;
+  padding: 20px;
+  box-shadow: 10px 5px 5px rgba(0,0,0,0.3);
+  position: relative;
+  height: min(600px,100vh);
+}
+
+.project-card:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
 /*   Open state of the dialog  */
 dialog[open] {
-    opacity: 1;
-    transform: scaleY(1);
-    height:300px ;
-    
-  }
+  opacity: 1;
+  transform: scaleY(1);
+  height:300px ;
   
+}
+
   /*   Closed state of the dialog   */
-  dialog {
-    opacity: 0;
-    transform: scaleY(0);
-    transition:
-      opacity 0.7s ease-out,
-      transform 0.7s ease-out,
-      overlay 0.7s ease-out allow-discrete,
-      display 0.7s ease-out allow-discrete;
-    /* Equivalent to
-    transition: all 0.7s allow-discrete; */
-  }
+dialog {
+opacity: 0;
+transform: scaleY(0);
+transition:
+  opacity 0.7s ease-out,
+  transform 0.7s ease-out,
+  overlay 0.7s ease-out allow-discrete,
+  display 0.7s ease-out allow-discrete;
+/* Equivalent to
+transition: all 0.7s allow-discrete; */
+}
+
+/* Transition the :backdrop when the dialog modal is promoted to the top layer */
+dialog::backdrop {
+background-color: rgb(0 0 0 / 0%);
+transition:
+  display 0.7s allow-discrete,
+  overlay 0.7s allow-discrete,
+  background-color 0.7s;
+/* Equivalent to
+  transition: all 0.7s allow-discrete; */
+}
+
+dialog[open]::backdrop {
+  background-color: rgb(0 0 0 / 45%);
+  backdrop-filter: blur(4px);
+}
+
+input,
+select,
+progress,
+meter {
+  display: block;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+input[type="color"],
+select {
+  box-shadow: inset 1px 1px 3px #ccc;
+  border-radius: 5px;
+}
+
+#Project,#Task {
+  position: absolute;
+  top: calc(50vh - 158px);
+  left: calc(50vw - 118px);
+}
+
+ul {
+  flex: 1;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;  
+}
+
+input[type="radio"] {
+  display: block;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  margin: 5px 0 0 2px;
+  bottom: 2px;
+}
+
+dialog p {
+  display: flex;
+  gap: 5px;
+}
+
+.project-card {
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
   
-  /* Transition the :backdrop when the dialog modal is promoted to the top layer */
-  dialog::backdrop {
-    background-color: rgb(0 0 0 / 0%);
-    transition:
-      display 0.7s allow-discrete,
-      overlay 0.7s allow-discrete,
-      background-color 0.7s;
-    /* Equivalent to
-    transition: all 0.7s allow-discrete; */
-  }
-  
-  dialog[open]::backdrop {
-    background-color: rgb(0 0 0 / 45%);
-    backdrop-filter: blur(4px);
-  }
-  
-  input,
-  select,
-  progress,
-  meter {
-    display: block;
-    font-family: inherit;
-    font-size: 100%;
-    margin: 0;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 5px;
-  }
-  
-  input[type="text"],
-  input[type="datetime-local"],
-  input[type="color"],
-  select {
-    box-shadow: inset 1px 1px 3px #ccc;
-    border-radius: 5px;
-  }
+}
 
-  #Project,#Task {
-    position: absolute;
-    top: calc(50vh - 158px);
-    left: calc(50vw - 118px);
-  }
 
-  ul {
-    flex: 1;
-  }
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
 
-  .button-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;  
-  }
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+/* Popup arrow */
+.popup {
+  visibility:hidden;
+  position: absolute;
+  background-color: #555;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+  color: white;
+  left: 45%;
+  border-radius: 8px;
+  box-shadow: 10px 5px 5px rgba(0,0,0,0.3);
 
-  input[type="radio"] {
-    display: block;
-    position: relative;
-    width: 1em;
-    height: 1em;
-    margin: 5px 0 0 2px;
-    bottom: 2px;
-  }
+}
 
-  dialog p {
-    display: flex;
-    gap: 5px;
-  }
+
+/* Toggle this class - hide and show the popup */
+.popup.show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+.overlay {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+.overlay .project-card {
+  min-width: 400px;
+  height: min(700px,100vh);
+  border-color: purple;
+}
+
+.overlay .project-card:hover,#p0:hover {
+  transform: none;
+  cursor:auto;
+}
+
+.overlay a {
+  text-decoration: none;
+  color: white;
+}
+.overlay a:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+

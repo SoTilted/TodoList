@@ -1,7 +1,7 @@
 import './style.css';
 import Project from './projects';
 import createTask from './tasks'
-import createProject from './DOM_Project';
+import {createProject,createProjectDefault} from './DOM_Project';
 import addTaskInListDOM from './DOM_Task';
 
 const projectsList =[];
@@ -9,12 +9,11 @@ const tasksList =[];
 let projectCounter = 1;
 let taskCounter = 0;
 
-//This will change for the 'default' project 
-const example = new Project('project 1','lorem ipsum','today',[],'0');
-const newTask = createTask('title','sth to do','high','tomorrow','0',false);
-createProject(example),example.addTask(newTask),projectsList.push(example);
-
-
+function defaultContent(){
+    const defaultProject = new Project('All Tasks','','',[],'0');
+    createProjectDefault(defaultProject),projectsList.push(defaultProject);
+     
+};
 
 
 function addProjectDOM(element){
@@ -30,9 +29,8 @@ function addProjectDOM(element){
 function addTaskDOM(element){
     element.preventDefault();
     let dialogTaskInputs = document.querySelector('#Task').getElementsByTagName('input');
-    let newTask = createTask(dialogTaskInputs[0].value,dialogTaskInputs[2].value,dialogTaskInputs[3].value,dialogTaskInputs[1].value,taskCounter,false);
-    let ulElement = document.getElementById(`${element.target.parentElement.parentElement.parentElement.value}p`).querySelector('ul');
-    console.log(ulElement);
+    let newTask = createTask(dialogTaskInputs[0].value,dialogTaskInputs[2].value,dialogTaskInputs[3].checked,dialogTaskInputs[1].value,taskCounter,false);
+    let ulElement = document.getElementById(`p${element.target.parentElement.parentElement.parentElement.value}`).querySelector('ul');
     for (let targetProject of projectsList){
         if (targetProject.id == element.target.parentElement.parentElement.parentElement.value){     
             tasksList.push(newTask);
@@ -45,9 +43,6 @@ function addTaskDOM(element){
 }
 
 
-//example.removeTask('');
-//console.log(example.tasks);
-
 //try and make tasks drag and dropable
 //maybe highlight the dueDates or high priority tasks
 //maybe adding the tasks to a completed list instead of removing them?
@@ -55,21 +50,15 @@ function addTaskDOM(element){
 
 
 const dialogProjectButton = document.querySelector('#new-project');
-
 const dialogProjectElem = document.getElementById("Project");
-
-
 const confirmProjectButton = document.querySelector('#confirmProjectBtn');
 const confirmTaskButton = document.querySelector('#confirmTaskBtn');
 
+
 dialogProjectButton.addEventListener('click',()=>{dialogProjectElem.showModal();});
 
-
-
-
-
-//console.log(addTaskButton);
 confirmProjectButton.addEventListener('click',addProjectDOM);
 
 confirmTaskButton.addEventListener('click',addTaskDOM);
 
+window.addEventListener('load',defaultContent);
