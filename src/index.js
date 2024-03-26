@@ -1,19 +1,82 @@
 import './style.css';
-import Project from './projects';
-import createTask from './tasks'
-import {createProject,createProjectDefault} from './DOM_Project';
-import addTaskInListDOM from './DOM_Task';
+import {homeContent, projectsContent} from './DOM';
+const homeButton = document.querySelector('#home');
+const projectsButton = document.querySelector('#projects');
+const tasksList=[{title:'Hello darkness my old friend',description:'',dueDate:'',priority:'',completed:'',project:'',id:'0'},{title:'Hello darkness my new friend',description:'',dueDate:'',priority:'',completed:'',project:'',id:'1'}];
+const projectsList=[];
+
+window.addEventListener('load',()=>{homeContent(tasksList)});
+
+homeButton.addEventListener('click',()=>{homeContent(tasksList)});
+
+let sideBarButtons = document.querySelectorAll('.side-bar > div >button');
+sideBarButtons.forEach((element) => {
+    element.addEventListener('click',()=>{
+        if (element.className=='current-tab'){
+            return;
+        }
+        else{
+            element.classList.remove('previous-tab');
+            document.querySelector('.current-tab').classList.add('previous-tab');
+            document.querySelector('.current-tab').classList.remove('current-tab');
+            element.classList.add('current-tab');
+        }
+    });
+});
+
+
+
+projectsButton.addEventListener('click',()=>{projectsContent(projectsList)});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+import './style.css';
+import {Project,createTask} from './functionality';
+import {createProjectDOM,createTaskDOM} from './DOM';
+
 
 const projectsList =[];
 const tasksList =[];
 let projectCounter = 1;
 let taskCounter = 0;
 
-function defaultContent(){
-    const defaultProject = new Project('All Tasks','','',[],'0');
-    createProjectDefault(defaultProject),projectsList.push(defaultProject);
-     
-};
 
 
 function addProjectDOM(element){
@@ -31,8 +94,9 @@ function addTaskDOM(element){
     let dialogTaskInputs = document.querySelector('#Task').getElementsByTagName('input');
     let newTask = createTask(dialogTaskInputs[0].value,dialogTaskInputs[2].value,dialogTaskInputs[3].checked,dialogTaskInputs[1].value,taskCounter,false);
     let ulElement = document.getElementById(`p${element.target.parentElement.parentElement.parentElement.value}`).querySelector('ul');
+    const dialogTaskElement= document.querySelector('#Task');
     for (let targetProject of projectsList){
-        if (targetProject.id == element.target.parentElement.parentElement.parentElement.value){     
+        if (targetProject.id == dialogTaskElement.value){     
             tasksList.push(newTask);
             targetProject.addTask(newTask);
             addTaskInListDOM(ulElement,newTask);
@@ -60,5 +124,4 @@ dialogProjectButton.addEventListener('click',()=>{dialogProjectElem.showModal();
 confirmProjectButton.addEventListener('click',addProjectDOM);
 
 confirmTaskButton.addEventListener('click',addTaskDOM);
-
-window.addEventListener('load',defaultContent);
+*/
