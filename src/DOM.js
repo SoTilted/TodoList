@@ -1,14 +1,19 @@
 function homeContent(allTasks){
     const contentDiv = document.querySelector('.content');
     contentDiv.innerHTML='';
-    for (let task of allTasks){
-        createTask(allTasks,task);
-    }
+    const taskContainer = document.createElement('div');
+    taskContainer.setAttribute('class','task-container');
+
     const addTaskButton = document.createElement('button');
     addTaskButton.setAttribute('id','add-task');
     addTaskButton.textContent='+';
     addTaskButton.addEventListener('click',()=>{document.querySelector('#Task').showModal();})
-    contentDiv.appendChild(addTaskButton);
+    contentDiv.append(taskContainer,addTaskButton);
+
+    for (let task of allTasks){
+        createTask(allTasks,task);
+    }
+
 };
 function createTask(allTasks,task){
     //
@@ -94,7 +99,7 @@ function createTask(allTasks,task){
     taskButtonsTaskDiv.append(detailsTaskDiv,dateTaskDiv,toggleTaskDiv,deleteTaskDiv);
     
     taskDiv.append(checkboxTaskDiv,pTaskDiv,taskButtonsTaskDiv);
-    document.querySelector('.content').appendChild(taskDiv);
+    document.querySelector('.task-container').appendChild(taskDiv);
 
     //eventlistener for the priority button(changes color and task priority)
     let buttons = taskDiv.getElementsByClassName("button");
@@ -151,10 +156,47 @@ function createTask(allTasks,task){
 function projectsContent(allProjects){
     const contentDiv = document.querySelector('.content');
     contentDiv.innerHTML='';
-    // for (let project of allProjects){
-    //     createProject(project);
-    // }
+    const projectGrid = document.createElement('div');
+    projectGrid.setAttribute('class','project-grid');
+
+    const addProjectButton = document.createElement('button');
+    addProjectButton.setAttribute('id','add-project');
+    addProjectButton.textContent='+';
+    addProjectButton.addEventListener('click',()=>{document.querySelector('#Project').showModal();})
+
+    contentDiv.append(projectGrid,addProjectButton);
+    for (let project of allProjects){
+        createProject(project);
+    }
+
+
 };
+
+
+function createProject(project){
+    //
+    let projectDiv = document.createElement('div');
+    projectDiv.setAttribute('class','project-card');
+    //
+    let titleProjectDiv = document.createElement('h1');
+    titleProjectDiv.textContent=project.title;
+    //
+    let descriptionProjectDiv = document.createElement('p');
+    descriptionProjectDiv.textContent = project.description;
+    //
+    let showTasksButtonProjectDiv = document.createElement('button');
+    showTasksButtonProjectDiv.setAttribute('class','show-tasks');
+    //
+    let dateProjectDiv = document.createElement('p');
+    dateProjectDiv.textContent = project.dueDate;
+    //
+    projectDiv.append(titleProjectDiv,descriptionProjectDiv,showTasksButtonProjectDiv,dateProjectDiv);
+
+    let projectGrid = document.querySelector('.project-grid');
+    projectGrid.appendChild(projectDiv);
+
+};
+
 
 
 function showPopUp(task){

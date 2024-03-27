@@ -22,8 +22,9 @@
         <button id="projects">Projects</button>
     </div>
 </div>
-<div class="content">
-</div>
+    <div class="content">
+        <button id="add-task">+</button>
+    </div>
 <div class="footer">
     <a href="https://github.com/SoTilted/">SoTilted &copy;</a></div>
     <div class="overlay"></div>
@@ -41,10 +42,24 @@
 
         <div>
             <label for="description">Description:</label>
-            <input type="text" id="description" name="description">
-        </div>
+            <textarea id="description" name="description"></textarea>
+        </div>            
         <div>
-            
+            <label for="radio">Priority:</label>
+            <p>
+                <input type="radio" id="High" name="radio">
+                <label for="high">High</label>
+            </p>
+
+            <p>
+                <input type="radio" id="Medium" name="radio">
+                <label for="medium">Medium</label>  
+            </p>
+            <p>
+                <input type="radio" id="Low" name="radio">
+                <label for="low">Low</label>  
+            </p>
+        </div>
         <div>
             <button value="cancel" formmethod="dialog">Cancel</button>
             <button id="confirmProjectBtn" value="default">Create Project</button>
@@ -55,28 +70,32 @@
     <form>     
         <div>
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title">
+            <input type="text" id="title" name="title" placeholder="Title...">
         </div>
 
         <div>
-            <label for="dueDate">dueDate:</label>
+            <label for="dueDate">Due date:</label>
             <input type="date" id="dueDate" name="dueDate"  min ='' onfocus="this.min=new Date().toISOString().split('T')[0]">
         </div>
 
         <div>
             <label for="description">Description:</label>
-            <input type="text" id="description" name="description">
+            <textarea id="description" name="description" placeholder="Describe the task here..."></textarea>
         </div>
         <div>
-            <label for="radio">Is it of high priority?</label>
+            <label for="radio">Priority:</label>
             <p>
-                <input type="radio" id="yes" name="radio">
-                <label for="yes">Yes</label>
+                <input type="radio" id="High" name="radio">
+                <label for="high">High</label>
             </p>
 
             <p>
-                <input type="radio" id="no" name="radio">
-                <label for="no">No</label>  
+                <input type="radio" id="Medium" name="radio">
+                <label for="medium">Medium</label>  
+            </p>
+            <p>
+                <input type="radio" id="Low" name="radio">
+                <label for="low">Low</label>  
             </p>
         </div>
         <div>

@@ -1,10 +1,12 @@
 import './style.css';
 import {homeContent, projectsContent} from './DOM';
+import { createTask } from './functionality';
 const homeButton = document.querySelector('#home');
 const projectsButton = document.querySelector('#projects');
-const tasksList=[{title:'Hello darkness my old friend',description:'',dueDate:'',priority:'',completed:'',project:'',id:'0'},{title:'Hello darkness my new friend',description:'',dueDate:'',priority:'',completed:'',project:'',id:'1'}];
-const projectsList=[];
-
+const addTaskButton = document.querySelector('#confirmTaskBtn');
+const tasksList=[];
+const projectsList=[{title:'Test Project',description:'Lorem Ipsum',dueDate:'2024-03-27',tasks:'',priority:'',id:''},{title:'Test Project',description:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis nisi quas, quasi asperiores totam nemo impedit ab doloribus, et magnam atque iure corporis quidem eligendi quis vero ipsum non eius.',dueDate:'2024-03-27',tasks:'',priority:'',id:''}];
+let taskCounter = 0;
 window.addEventListener('load',()=>{homeContent(tasksList)});
 
 homeButton.addEventListener('click',()=>{homeContent(tasksList)});
@@ -28,9 +30,19 @@ sideBarButtons.forEach((element) => {
 
 projectsButton.addEventListener('click',()=>{projectsContent(projectsList)});
 
+addTaskButton.addEventListener('click',(event)=>{
+    event.preventDefault();
+    let  allInputs = document.querySelectorAll('#Task input');
+    let taskTextarea = document.querySelector('#Task textarea');
+    let newTask = createTask(allInputs[0].value,allInputs[1].value,taskTextarea.value,[allInputs[2],allInputs[3],allInputs[4]].filter((element)=>{return element.checked==true})[0].id,false,'',taskCounter+'t');
+    tasksList.push(newTask);
+    taskCounter++;
+    document.querySelector('#Task').close();
+    homeContent(tasksList);
+});
 
-
-
+//change homeContent a bit to taskContent, so that i can use the function
+//almost the same way for the inside of a project
 
 
 

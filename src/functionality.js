@@ -1,9 +1,6 @@
-function createTask(title,description,dueDate,priority,completed,project,id){
-        return {title,description,dueDate,priority,completed,project,id};
+function createTask(title,dueDate,description,priority,completed,project,id){
+        return {title,dueDate,description,priority,completed,project,id};
     }
-
-
-
 
 
 export {createTask};
