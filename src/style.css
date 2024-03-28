@@ -47,7 +47,14 @@ h1 {
   cursor: pointer;
 }
 
-.eye-logo:hover {
+.eye-logo-back {
+  width: 30px;
+  height: 30px;
+  background-image: url(./assets/eye-remove-outline.svg);
+  cursor: pointer;
+}
+
+.eye-logo:hover,.eye-logo-back:hover {
   opacity: 0.7;
 }
 .footer {
@@ -69,7 +76,6 @@ h1 {
   background-color: #4F7B87;
   border-radius: 8px;
   border-top-left-radius: 0px;
-  justify-content: space-between;
 }
 @keyframes fadein {
   from {
@@ -284,7 +290,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
   background-color: #323443;
   border-radius: 8px;
   transition: transform 0.35s;
-
+  
 }
 
 #add-task:hover,#add-project:hover{
@@ -436,7 +442,7 @@ form button:hover {
 }
 
 .project-card:hover {
-  transform: scale(1.1);
+  transform: scale(1.04);
   
 }
 
@@ -452,7 +458,7 @@ form button:hover {
   grid-template-columns: repeat(auto-fit, minmax(15vw, 400px));
   gap: 40px;
   padding: 15px;
-
+  flex: 1;
 }
 
 .show-tasks {
@@ -477,235 +483,55 @@ form button:hover {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-
-
-
-
-/* 
-.side-bar,.projects,.tasks,.home {
-  display: flex;
-  flex-direction: column;
-
-}
-.content {
-  grid-area: content;
-  flex: 1;
-  padding: 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15vw, 400px));
-  gap: 100px;
-  overflow: auto;
-
-}
-
-.side-bar {
-  grid-area: sidebar;
-  background-color: antiquewhite;
-  box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
-  gap: 50px;
-  padding: 0 45px 0 10px;
-}
-
-button {
-  font-size: 1.3em;
-  text-align: start;
-  border: none;
-  background-color: antiquewhite;
-  color: rgb(45, 45, 45);
-}
-button:hover {
-  background-color: #f0e1cd;
-  cursor: pointer;
-  
-}
-
-h1 {
-  border-bottom: 3px solid black;
-  max-width: 400px;
-  overflow:scroll;
-}
-
-.project-card {
-  display: flex;
-  flex-direction: column;
-  background-color: antiquewhite;
-  font-size: 1.3rem;
-  border-radius: 16px;
-  border-left: 12px solid;
-  border-left-color: black;
-  padding: 20px;
-  box-shadow: 10px 5px 5px rgba(0,0,0,0.3);
-  position: relative;
-  height: min(600px,100vh);
-}
-
-.project-card:hover {
-  transform: scale(1.1);
-  cursor: pointer;
-}
-
-dialog[open] {
-  opacity: 1;
-  transform: scaleY(1);
-  height:300px ;
-  
-}
-
-dialog {
-opacity: 0;
-transform: scaleY(0);
-transition:
-  opacity 0.7s ease-out,
-  transform 0.7s ease-out,
-  overlay 0.7s ease-out allow-discrete,
-  display 0.7s ease-out allow-discrete;
-
-}
-
-dialog::backdrop {
-background-color: rgb(0 0 0 / 0%);
-transition:
-  display 0.7s allow-discrete,
-  overlay 0.7s allow-discrete,
-  background-color 0.7s;
-}
-
-dialog[open]::backdrop {
-  background-color: rgb(0 0 0 / 45%);
-  backdrop-filter: blur(4px);
-}
-
-input,
-select,
-progress,
-meter {
-  display: block;
-  font-family: inherit;
-  font-size: 100%;
-  margin: 0;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 5px;
-}
-
-input[type="text"],
-input[type="datetime-local"],
-input[type="color"],
-select {
-  box-shadow: inset 1px 1px 3px #ccc;
-  border-radius: 5px;
-}
-
-#Project,#Task {
-  position: absolute;
-  top: calc(50vh - 158px);
-  left: calc(50vw - 118px);
-}
-
-ul {
   flex: 1;
 }
 
-.button-wrapper {
+
+.project-header {
   display: flex;
-  justify-content: space-between;
-  align-items: end;  
-}
-
-input[type="radio"] {
-  display: block;
-  position: relative;
-  width: 1em;
-  height: 1em;
-  margin: 5px 0 0 2px;
-  bottom: 2px;
-}
-
-dialog p {
-  display: flex;
-  gap: 5px;
-}
-
-.project-card {
-  -webkit-transition: all .2s ease-in-out;
-  -moz-transition: all .2s ease-in-out;
-  -o-transition: all .2s ease-in-out;
-  -ms-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
-  
-}
-
-
-@-webkit-keyframes fadeIn {
-  from {opacity: 0;} 
-  to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
-}
-.popup {
-  visibility:hidden;
-  position: absolute;
-  background-color: #555;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-  color: white;
-  left: 45%;
-  border-radius: 8px;
-  box-shadow: 10px 5px 5px rgba(0,0,0,0.3);
-
-}
-
-
-.popup.show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
-}
-
-.overlay {
-  justify-content: center;
   align-items: center;
+}
+
+.project-header h1 {
+  margin-left:35vw;
+}
+
+.delete-project {
+  position: sticky;
+  bottom: 100%;
+  left: 100%;
+  padding: 0;
+  font-size: 3rem;
+}
+
+.delete-project:hover {
+  background: none ;  
+  font-weight: 600;
+  background-size: none;
+  background-position: none;
+  color: #78A083;
+  transition: none;
+  background-color: #323443;
+}
+
+
+#DeleteProject {
   display: flex;
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0, 0.9);
-  overflow-x: hidden;
-  transition: 0.5s;
+  flex-direction: column;
 }
 
-.overlay .closebtn {
-  position: absolute;
-  top: 20px;
-  right: 45px;
-  font-size: 60px;
+#DeleteProject button {
+  color: #A3E7B5;
 }
 
-.overlay .project-card {
-  min-width: 400px;
-  height: min(700px,100vh);
-  border-color: purple;
+#DeleteProject button:hover {
+  background: linear-gradient(to right, #323443 50%,#A3E7B5  50%);
+  font-weight: 600;
+  background-size: 200% 100%;
+  background-position: right bottom;
+  color: #323443;
+  background-color: #50727B;
+  transition: all ease 0.5s;
+  cursor: pointer;
 }
 
-.overlay .project-card:hover,#p0:hover {
-  transform: none;
-  cursor:auto;
-}
-
-.overlay a {
-  text-decoration: none;
-  color: white;
-}
-.overlay a:hover {
-  color: rgba(255, 255, 255, 0.8);
-}
- */

@@ -28,7 +28,7 @@
 <div class="footer">
     <a href="https://github.com/SoTilted/">SoTilted &copy;</a></div>
     <div class="overlay"></div>
-<dialog id="Project">
+<dialog>
     <form> 
         <div>
             <label for="title">Title:</label>
@@ -56,53 +56,21 @@
                 <label for="medium">Medium</label>  
             </p>
             <p>
-                <input type="radio" id="Low" name="radio">
+                <input type="radio" id="Low" name="radio" checked>
                 <label for="low">Low</label>  
             </p>
         </div>
         <div>
             <button value="cancel" formmethod="dialog">Cancel</button>
-            <button id="confirmProjectBtn" value="default">Create Project</button>
+            <button id="confirmBtn" value="default">Create Task</button>
         </div>
     </form>
 </dialog>
-<dialog id="Task">
-    <form>     
-        <div>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" placeholder="Title...">
-        </div>
-
-        <div>
-            <label for="dueDate">Due date:</label>
-            <input type="date" id="dueDate" name="dueDate"  min ='' onfocus="this.min=new Date().toISOString().split('T')[0]">
-        </div>
-
-        <div>
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" placeholder="Describe the task here..."></textarea>
-        </div>
-        <div>
-            <label for="radio">Priority:</label>
-            <p>
-                <input type="radio" id="High" name="radio">
-                <label for="high">High</label>
-            </p>
-
-            <p>
-                <input type="radio" id="Medium" name="radio">
-                <label for="medium">Medium</label>  
-            </p>
-            <p>
-                <input type="radio" id="Low" name="radio">
-                <label for="low">Low</label>  
-            </p>
-        </div>
-        <div>
-            <button value="cancel" formmethod="dialog">Cancel</button>
-            <button id="confirmTaskBtn" value="default">Create Task</button>
-        </div>
-    </form>
+<dialog id="DeleteProject"><form>
+        <h1>You are about to delete the project! Are you sure?</h1>
+        <button value="cancel" formmethod="dialog">Cancel</button>
+        <button id="confirmDeleteProjectBtn" value="default">Continue</button>
+</form>
 </dialog>
 </body>
 </html>

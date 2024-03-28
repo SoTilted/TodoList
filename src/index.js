@@ -1,17 +1,23 @@
 import './style.css';
-import {homeContent, projectsContent} from './DOM';
-import { createTask } from './functionality';
+import {homeContent, projectsContent,projectTasksContent} from './DOM';
+import { createTask, Project } from './functionality';
 const homeButton = document.querySelector('#home');
 const projectsButton = document.querySelector('#projects');
-const addTaskButton = document.querySelector('#confirmTaskBtn');
-const tasksList=[];
-const projectsList=[{title:'Test Project',description:'Lorem Ipsum',dueDate:'2024-03-27',tasks:'',priority:'',id:''},{title:'Test Project',description:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis nisi quas, quasi asperiores totam nemo impedit ab doloribus, et magnam atque iure corporis quidem eligendi quis vero ipsum non eius.',dueDate:'2024-03-27',tasks:'',priority:'',id:''}];
+const addButton = document.querySelector('#confirmBtn');
+const deleteProjectButton = document.querySelector("#confirmDeleteProjectBtn");
+
+const data = {
+    tasksList: {},
+    projectsList: {}
+}
+
 let taskCounter = 0;
-window.addEventListener('load',()=>{homeContent(tasksList)});
+let projectCounter = 0;
+window.addEventListener('load',()=>{homeContent(data)});
 
-homeButton.addEventListener('click',()=>{homeContent(tasksList)});
+homeButton.addEventListener('click',()=>{homeContent(data)});
 
-let sideBarButtons = document.querySelectorAll('.side-bar > div >button');
+const sideBarButtons = document.querySelectorAll('.side-bar > div >button');
 sideBarButtons.forEach((element) => {
     element.addEventListener('click',()=>{
         if (element.className=='current-tab'){
@@ -26,114 +32,64 @@ sideBarButtons.forEach((element) => {
     });
 });
 
+projectsButton.addEventListener('click',()=>{projectsContent(data)});
 
+addButton.addEventListener('click',(event)=>{
+    event.preventDefault();
+    if(document.querySelector('dialog').id=='Task'){
+        addTask(event);
+    }
+    else{
+        addProject(event);
+    }
+})
 
-projectsButton.addEventListener('click',()=>{projectsContent(projectsList)});
+deleteProjectButton.addEventListener('click',deleteProject);
 
-addTaskButton.addEventListener('click',(event)=>{
+function addTask(event){
     event.preventDefault();
     let  allInputs = document.querySelectorAll('#Task input');
     let taskTextarea = document.querySelector('#Task textarea');
-    let newTask = createTask(allInputs[0].value,allInputs[1].value,taskTextarea.value,[allInputs[2],allInputs[3],allInputs[4]].filter((element)=>{return element.checked==true})[0].id,false,'',taskCounter+'t');
-    tasksList.push(newTask);
+    let newTask = createTask(allInputs[0].value,allInputs[1].value,taskTextarea.value,[allInputs[2],allInputs[3],allInputs[4]].filter((element)=>{return element.checked==true})[0].id,false,'home','t'+taskCounter);
+    data["tasksList"][newTask.id]=newTask;
     taskCounter++;
     document.querySelector('#Task').close();
-    homeContent(tasksList);
-});
-
-//change homeContent a bit to taskContent, so that i can use the function
-//almost the same way for the inside of a project
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-import './style.css';
-import {Project,createTask} from './functionality';
-import {createProjectDOM,createTaskDOM} from './DOM';
-
-
-const projectsList =[];
-const tasksList =[];
-let projectCounter = 1;
-let taskCounter = 0;
-
-
-
-function addProjectDOM(element){
-    element.preventDefault();
-    let dialogProjectInputs=dialogProjectElem.getElementsByTagName('input');
-    let newProject = new Project(dialogProjectInputs[0].value,dialogProjectInputs[2].value,dialogProjectInputs[1].value,[],projectCounter);
-    createProject(newProject);
-    projectsList.push(newProject);
-    projectCounter++;
-    dialogProjectElem.close();
-}
-
-function addTaskDOM(element){
-    element.preventDefault();
-    let dialogTaskInputs = document.querySelector('#Task').getElementsByTagName('input');
-    let newTask = createTask(dialogTaskInputs[0].value,dialogTaskInputs[2].value,dialogTaskInputs[3].checked,dialogTaskInputs[1].value,taskCounter,false);
-    let ulElement = document.getElementById(`p${element.target.parentElement.parentElement.parentElement.value}`).querySelector('ul');
-    const dialogTaskElement= document.querySelector('#Task');
-    for (let targetProject of projectsList){
-        if (targetProject.id == dialogTaskElement.value){     
-            tasksList.push(newTask);
-            targetProject.addTask(newTask);
-            addTaskInListDOM(ulElement,newTask);
+    if(addButton.value[0]=='t'){
+        homeContent(data);
+    }
+    else {
+        for (let project in data["projectsList"]){
+            if (project==addButton.value){
+                data["tasksList"][newTask.id].project=data["projectsList"][project].title;
+                projectTasksContent(data["projectsList"][project],data);
+            }
         }
     }
-    taskCounter++;
-    document.querySelector('#Task').close();
+
 }
 
+function addProject(event){
+    event.preventDefault();
+    let  allInputs = document.querySelectorAll('#Project input');
+    let projectTextarea = document.querySelector('#Project textarea');
+    let newProject = Project(allInputs[0].value,allInputs[1].value,projectTextarea.value,[allInputs[2],allInputs[3],allInputs[4]].filter((element)=>{return element.checked==true})[0].id,false,'p'+projectCounter);
+    data["projectsList"][newProject.id]=newProject;
+    projectCounter++;
+    document.querySelector('#Project').close();
+    projectsContent(data);
+}
 
-//try and make tasks drag and dropable
-//maybe highlight the dueDates or high priority tasks
-//maybe adding the tasks to a completed list instead of removing them?
+function deleteProject(event){
+    event.preventDefault();
+    for( let task in data["tasksList"]){
+        if (data["tasksList"][task].project==data["projectsList"][deleteProjectButton.value].title){
+            delete data["tasksList"][task];
+        }
+    }
+    delete data["projectsList"][deleteProjectButton.value];
+    let projectDiv = document.querySelector(`#${deleteProjectButton.value}`)
+    let deleteProjectDialog = document.querySelector('#DeleteProject');
+    projectDiv.parentElement.removeChild(projectDiv);
+    deleteProjectDialog.close();
+}
 
-
-
-const dialogProjectButton = document.querySelector('#new-project');
-const dialogProjectElem = document.getElementById("Project");
-const confirmProjectButton = document.querySelector('#confirmProjectBtn');
-const confirmTaskButton = document.querySelector('#confirmTaskBtn');
-
-
-dialogProjectButton.addEventListener('click',()=>{dialogProjectElem.showModal();});
-
-confirmProjectButton.addEventListener('click',addProjectDOM);
-
-confirmTaskButton.addEventListener('click',addTaskDOM);
-*/

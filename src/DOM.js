@@ -1,4 +1,4 @@
-function homeContent(allTasks){
+function homeContent(data){
     const contentDiv = document.querySelector('.content');
     contentDiv.innerHTML='';
     const taskContainer = document.createElement('div');
@@ -7,14 +7,58 @@ function homeContent(allTasks){
     const addTaskButton = document.createElement('button');
     addTaskButton.setAttribute('id','add-task');
     addTaskButton.textContent='+';
-    addTaskButton.addEventListener('click',()=>{document.querySelector('#Task').showModal();})
+    addTaskButton.addEventListener('click',()=>{
+        document.querySelector('dialog').setAttribute('id','Task');
+        document.querySelector('dialog').showModal();
+        document.querySelector('#confirmBtn').value='task';
+    });
     contentDiv.append(taskContainer,addTaskButton);
-
-    for (let task of allTasks){
-        createTask(allTasks,task);
+    for (let task in data["tasksList"]){
+        createTask(data["tasksList"],data["tasksList"][task]);
     }
 
 };
+
+function projectTasksContent(project,data){
+    const contentDiv = document.querySelector('.content');
+    contentDiv.innerHTML='';
+    //
+    const headerContainer = document.createElement('div');
+    headerContainer.setAttribute('class','project-header');
+    //
+    const goBackButton = document.createElement('div');
+    goBackButton.setAttribute('class','eye-logo-back');
+    goBackButton.addEventListener('click',()=>{projectsContent(data)});
+    //
+    const projectTitle = document.createElement('h1');
+    projectTitle.textContent = project.title;
+    if (project.priority== 'Low'){projectTitle.style.color = 'green'}
+    else if (project.priority== 'Medium'){projectTitle.style.color = 'orange'}
+    else {projectTitle.style.color = 'red'}
+    headerContainer.append(goBackButton,projectTitle);
+
+    //create the header with a title and button to go back
+    const taskContainer = document.createElement('div');
+    taskContainer.setAttribute('class','task-container');
+
+    const addTaskButton = document.createElement('button');
+    addTaskButton.setAttribute('id','add-task');
+    addTaskButton.textContent='+';
+    addTaskButton.addEventListener('click',()=>{
+        document.querySelector('dialog').setAttribute('id','Task');
+        document.querySelector('#confirmBtn').textContent='Add Task';
+        document.querySelector('#Task').showModal();
+        document.querySelector('#confirmBtn').value=project.id;})
+    contentDiv.append(headerContainer,taskContainer,addTaskButton);
+
+    for (let task in data["tasksList"]){
+        if (data["tasksList"][task].project==project.title){
+            createTask(data["tasksList"],data["tasksList"][task]);
+        }
+    }
+
+};
+
 function createTask(allTasks,task){
     //
     let taskDiv = document.createElement('div');
@@ -54,7 +98,6 @@ function createTask(allTasks,task){
     //
     let detailsTaskDiv = document.createElement('div');
     detailsTaskDiv.setAttribute('class','eye-logo');
-
     detailsTaskDiv.addEventListener('click',()=>{showPopUp(task)});
 
     //
@@ -93,7 +136,7 @@ function createTask(allTasks,task){
     deleteTaskDiv.setAttribute('id','delete-task');
     deleteTaskDiv.innerHTML="&times;"
     deleteTaskDiv.addEventListener('click',()=>{
-        allTasks.splice(allTasks.indexOf(task),1);
+        delete allTasks[task.id];
         taskDiv.parentElement.removeChild(taskDiv);
     });
     taskButtonsTaskDiv.append(detailsTaskDiv,dateTaskDiv,toggleTaskDiv,deleteTaskDiv);
@@ -150,10 +193,7 @@ function createTask(allTasks,task){
     };
 };
 
-
-
-
-function projectsContent(allProjects){
+function projectsContent(data){
     const contentDiv = document.querySelector('.content');
     contentDiv.innerHTML='';
     const projectGrid = document.createElement('div');
@@ -162,21 +202,25 @@ function projectsContent(allProjects){
     const addProjectButton = document.createElement('button');
     addProjectButton.setAttribute('id','add-project');
     addProjectButton.textContent='+';
-    addProjectButton.addEventListener('click',()=>{document.querySelector('#Project').showModal();})
+    addProjectButton.addEventListener('click',()=>{
+        document.querySelector('dialog').setAttribute('id','Project');
+        document.querySelector('#confirmBtn').textContent='Add Project';
+        document.querySelector('dialog').showModal();
+    })
 
     contentDiv.append(projectGrid,addProjectButton);
-    for (let project of allProjects){
-        createProject(project);
+    for (let project in data["projectsList"]){
+        createProject(data["projectsList"][project],data);
     }
 
 
 };
 
-
-function createProject(project){
+function createProject(project,data){
     //
     let projectDiv = document.createElement('div');
     projectDiv.setAttribute('class','project-card');
+    projectDiv.setAttribute('id',`${project.id}`);
     //
     let titleProjectDiv = document.createElement('h1');
     titleProjectDiv.textContent=project.title;
@@ -186,18 +230,38 @@ function createProject(project){
     //
     let showTasksButtonProjectDiv = document.createElement('button');
     showTasksButtonProjectDiv.setAttribute('class','show-tasks');
+    showTasksButtonProjectDiv.addEventListener('click',()=>{
+        projectTasksContent(project,data);
+    });
+
     //
     let dateProjectDiv = document.createElement('p');
     dateProjectDiv.textContent = project.dueDate;
     //
-    projectDiv.append(titleProjectDiv,descriptionProjectDiv,showTasksButtonProjectDiv,dateProjectDiv);
+    let deleteProjectButton = document.createElement('button');
+    deleteProjectButton.setAttribute('class','delete-project');
+    deleteProjectButton.innerHTML = "&times;";
+    deleteProjectButton.addEventListener('click',()=>{
+        let deleteProjectDialog = document.querySelector('#DeleteProject');
+        let confirmDeleteProjectButton = document.querySelector('#confirmDeleteProjectBtn');
+        deleteProjectDialog.showModal();
+        confirmDeleteProjectButton.value = project.id;
+    });
+    //
+    projectDiv.append(titleProjectDiv,descriptionProjectDiv,showTasksButtonProjectDiv,dateProjectDiv,deleteProjectButton);
 
     let projectGrid = document.querySelector('.project-grid');
     projectGrid.appendChild(projectDiv);
-
+    if(project.priority=='Low'){
+        projectDiv.style.borderLeftColor = 'green';
+    }
+    else if (project.priority=='Medium'){
+        projectDiv.style.borderLeftColor = 'orange';
+    }
+    else {
+        projectDiv.style.borderLeftColor = 'red';
+    }
 };
-
-
 
 function showPopUp(task){
     let popup = document.querySelector('.overlay');
@@ -214,163 +278,4 @@ function showPopUp(task){
     });
 }
 
-
-
-export {homeContent,projectsContent};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-function createProjectDOM(projectItem={title:'Title',description:'Add description here...',dueDate:'',tasks:[{title:'',description:'',priority:'',dueDate:'',id:''}],id:''}){
-    //get the div container that will hold the projects
-    const content = document.querySelector('.content');
-    //create a project
-    const projectCard = document.createElement('div');
-    projectCard.setAttribute('class','project-card');
-    //create the list of the project
-    const projectCardTaskList = document.createElement('ul');
-
-    const projectCardTitle = createTitle(projectItem.title);
-    const buttonWrapper = createButtonWrapper();
-    const [addTasksButton ,editButton, deleteButton] = createButtons(projectItem.id);
-
-    //append everything correctly
-    buttonWrapper.append(addTasksButton,editButton,deleteButton);
-    buttonWrapper.style.visibility='hidden';
-    content.appendChild(projectCard);
-    projectCard.append(projectCardTitle,projectCardTaskList,buttonWrapper);
-    projectCard.id='p'+projectItem.id;
-    projectCard.addEventListener('click',openOverlay);
-    //
-    let closeButton = document.querySelector('a');
-    closeButton.addEventListener('click',closeOverlay)
-};
-
-
-
-
-function openOverlay(element){
-   let overlay=document.querySelector('.overlay');
-    overlay.style.width = "100%";
-    let myTarget= element.target;
-    while(myTarget.className!='project-card'){
-        myTarget=myTarget.parentElement;
-    }
-    myTarget.lastChild.style.visibility='visible';
-    myTarget.removeEventListener('click',openOverlay);
-    overlay.appendChild(myTarget);
-    
-}
-
-function closeOverlay(){
-    let overlay=document.querySelector('.overlay');
-    overlay.style.width = "0%";
-    overlay.lastChild.addEventListener('click',openOverlay);
-    overlay.lastChild.lastChild.style.visibility='hidden';
-    document.querySelector('.content').appendChild(overlay.lastChild);
-
-}
-
-function createTitle(title){
-    //create the title of the project
-    const projectCardTitle = document.createElement('h1');
-    projectCardTitle.textContent = title;
-    return projectCardTitle;
-};
-
-function createButtonWrapper(){
-    //Create button wrapper
-    const buttonWrapper = document.createElement('div');
-    buttonWrapper.setAttribute('class','button-wrapper');
-    return buttonWrapper;
-};
-
-function createButtons(Id){
-    //Create buttons
-    const dialogTaskElem = document.getElementById("Task");
-    const addTasksButton = document.createElement('button');
-    addTasksButton.setAttribute('id','add-task');
-    addTasksButton.textContent = 'Add task';
-    const editButton = document.createElement('button');
-    editButton.setAttribute('id','edit');
-    editButton.textContent = 'Edit';
-    const deleteButton = document.createElement('button');
-    deleteButton.setAttribute('id','delete');
-    deleteButton.textContent = 'Delete';
-    //add eventlistener to the add task button to show the dialog
-    addTasksButton.addEventListener('click',()=>{
-        dialogTaskElem.value = Id;
-        dialogTaskElem.showModal();
-    });
-    return [addTasksButton,editButton,deleteButton];
-};
-
-
-function createTaskDOM(element,task={title:'',description:'',priority:'',dueDate:'',id:''}){
-    //create the pop-up
-    let priority;
-    (task.priority==true)?priority='High':priority='Low';
-    let spanPopUp = `<span class='popup' id='s${task.id}'><h3>${task.title}</h3><p>Due Date: ${task.dueDate}</p><p>${task.description}</p><p>Priority: ${priority}</p></span>`
-    
-    let listItem=document.createElement('li');
-    listItem.innerHTML=task.title + spanPopUp ;
-    listItem.id='t'+task.id;
-    element.appendChild(listItem);
-    
-    listItem.addEventListener('mouseenter',showPopUp);
-    listItem.addEventListener('mouseleave',hidePopUp);
-
-};
-//not using toggle because when clicking on the li objects it reverses the order because it enters and then the mouse leaves because of the overlay without registering it;
-function showPopUp(element){
-    let popup = document.querySelector(`#s${element.target.id.substring(1)}`);
-    popup.classList.add("show"); 
-}
-
-function hidePopUp(element){
-    let popup = document.querySelector(`#s${element.target.id.substring(1)}`);
-    popup.classList.remove("show");      
-}
-
-export  {createProjectDOM,createTaskDOM}
-*/
+export {homeContent,projectsContent,projectTasksContent};
