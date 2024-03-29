@@ -1,23 +1,38 @@
 import './style.css';
 import {homeContent, projectsContent,projectTasksContent} from './DOM';
 import { createTask, Project } from './functionality';
+
+//constants (buttons that we will add event listeners)
 const homeButton = document.querySelector('#home');
 const projectsButton = document.querySelector('#projects');
 const addButton = document.querySelector('#confirmBtn');
 const deleteProjectButton = document.querySelector("#confirmDeleteProjectBtn");
+const sideBarButtons = document.querySelectorAll('.side-bar > div >button');
 
-const data = {
-    tasksList: {},
-    projectsList: {}
-}
-
+let data = {};
 let taskCounter = 0;
 let projectCounter = 0;
-window.addEventListener('load',()=>{homeContent(data)});
+
+
+//Event listeners
+window.addEventListener('load',()=>{
+    if (storageAvailable("localStorage") && JSON.parse(localStorage.getItem('data'))) {
+        data=JSON.parse(localStorage.getItem('data'));
+        taskCounter= JSON.parse(localStorage.getItem('taskCounter'));
+        projectCounter= JSON.parse(localStorage.getItem('projectCounter'));
+
+    } 
+    else {
+        data = {
+            tasksList: {},
+            projectsList: {}
+        }
+    }
+    homeContent(data);
+});
 
 homeButton.addEventListener('click',()=>{homeContent(data)});
 
-const sideBarButtons = document.querySelectorAll('.side-bar > div >button');
 sideBarButtons.forEach((element) => {
     element.addEventListener('click',()=>{
         if (element.className=='current-tab'){
@@ -42,10 +57,11 @@ addButton.addEventListener('click',(event)=>{
     else{
         addProject(event);
     }
+    saveToStorage(data,taskCounter,projectCounter);
 })
 
 deleteProjectButton.addEventListener('click',deleteProject);
-
+//functions called in eventlisteners
 function addTask(event){
     event.preventDefault();
     let  allInputs = document.querySelectorAll('#Task input');
@@ -91,5 +107,40 @@ function deleteProject(event){
     let deleteProjectDialog = document.querySelector('#DeleteProject');
     projectDiv.parentElement.removeChild(projectDiv);
     deleteProjectDialog.close();
+    saveToStorage(data,taskCounter,projectCounter);
+};
+
+//checks if there is available local storage and if there isn't, it just uses a new empty data
+function storageAvailable(type) {
+    let storage;
+    try {
+      storage = window[type];
+      const x = "__storage_test__";
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+    } catch (e) {
+      return (
+        e instanceof DOMException &&
+        // everything except Firefox
+        (e.code === 22 ||
+          // Firefox
+          e.code === 1014 ||
+          // test name field too, because code might not be present
+          // everything except Firefox
+          e.name === "QuotaExceededError" ||
+          // Firefox
+          e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+        // acknowledge QuotaExceededError only if there's something already stored
+        storage &&
+        storage.length !== 0
+      );
+    }
 }
+//function that saves object to storage
+function saveToStorage(data,taskCounter,projectCounter){
+    localStorage.setItem('data',JSON.stringify(data));
+    localStorage.setItem('taskCounter',JSON.stringify(taskCounter));
+    localStorage.setItem('projectCounter',JSON.stringify(projectCounter));
+};
 
