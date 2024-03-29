@@ -17,12 +17,13 @@ function homeContent(data){
         document.querySelector('dialog').showModal();
         document.querySelector('#confirmBtn').value='task';
     });
+    //
+    contentDiv.append(taskContainer,addTaskButton);
     //create tasks and add them to the  task container
     for (let task in data["tasksList"]){
         createTask(data,data["tasksList"][task]);
     }
-    //
-    contentDiv.append(taskContainer,addTaskButton);
+   
 };
 
 function projectTasksContent(project,data){
@@ -59,14 +60,14 @@ function projectTasksContent(project,data){
         document.querySelector('#confirmBtn').textContent='Add Task';
         document.querySelector('#Task').showModal();
         document.querySelector('#confirmBtn').value=project.id;})
+    //
+    contentDiv.append(headerContainer,taskContainer,addTaskButton);
     //create and add tasks to task container
     for (let task in data["tasksList"]){
         if (data["tasksList"][task].project==project.title){
             createTask(data["tasksList"],data["tasksList"][task]);
         }
     }
-    //
-    contentDiv.append(headerContainer,taskContainer,addTaskButton);
 };
 
 function createTask(data,task){
@@ -161,12 +162,13 @@ function projectsContent(data){
         document.querySelector('#confirmBtn').textContent='Add Project';
         document.querySelector('dialog').showModal();
     })
+    //
+    contentDiv.append(projectGrid,addProjectButton);
     //creates and adds projects to the project container
     for (let project in data["projectsList"]){
         createProject(data["projectsList"][project],data);
     }
-    //
-    contentDiv.append(projectGrid,addProjectButton);
+    
 
 
 };
