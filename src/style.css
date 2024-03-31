@@ -674,12 +674,19 @@ form button:hover {
   
   input[type=date]{
     font-size: 1.3rem;
-    width: 50px;
+    width: auto;
+    height: 50px;
     border: none;
     background: none;
     color:#A3E7B5;
+    border: 1px solid;
+    padding: 5px;
   }
   .footer a{
     padding: 10px;
+  }
+  .task-buttons {
+    width: 100%;
+    justify-content: center;
   }
 }
