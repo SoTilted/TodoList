@@ -65,8 +65,7 @@ h1 {
   height: 30px;
   background-image: url(./assets/eye-remove-outline.svg);
   cursor: pointer;
-  position: absolute;
-  top: 90px;
+  
 }
 
 .eye-logo:hover,.eye-logo-back:hover {
@@ -688,5 +687,9 @@ form button:hover {
   .task-buttons {
     width: 100%;
     justify-content: center;
+  }
+  .eye-logo-back {
+    position: absolute;
+    top: 90px;
   }
 }
