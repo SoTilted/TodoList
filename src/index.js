@@ -31,7 +31,10 @@ window.addEventListener('load',()=>{
     homeContent(data);
 });
 
-homeButton.addEventListener('click',()=>{homeContent(data)});
+homeButton.addEventListener('click',()=>{
+    homeContent(data);
+    closeOverlay();
+});
 
 sideBarButtons.forEach((element) => {
     element.addEventListener('click',()=>{
@@ -47,7 +50,10 @@ sideBarButtons.forEach((element) => {
     });
 });
 
-projectsButton.addEventListener('click',()=>{projectsContent(data)});
+projectsButton.addEventListener('click',()=>{
+    projectsContent(data)
+    closeOverlay();
+});
 
 addButton.addEventListener('click',(event)=>{
     event.preventDefault();
@@ -144,3 +150,27 @@ function saveToStorage(data,taskCounter,projectCounter){
     localStorage.setItem('projectCounter',JSON.stringify(projectCounter));
 };
 
+
+const showOverlayButton = document.querySelector('.showOverlay');
+const closeOverlayButton = document.querySelector('#close');
+showOverlayButton.addEventListener('click',showOverlay);
+closeOverlayButton.addEventListener('click',closeOverlay);
+function showOverlay(){
+    const menu = document.querySelector('.side-bar');
+    menu.style.transform='translate(73%,75%)';
+    menu.style.transition = 'transform .55s ease-out';
+    closeOverlayButton.style.visibility='visible';
+    closeOverlayButton.style.transition='opacity 1s ease';
+    closeOverlayButton.style.display= 'block';
+    closeOverlayButton.style.opacity='1';
+
+
+};
+
+function closeOverlay(){
+    const menu = document.querySelector('.side-bar');
+    menu.style.transform='translate(0%,0%)';
+    menu.style.transition = 'transform .55s ease-in'; 
+    closeOverlayButton.style.visibility='hidden';
+    closeOverlayButton.style.opacity='0';
+};

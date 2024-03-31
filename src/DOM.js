@@ -16,6 +16,7 @@ function homeContent(data){
         document.querySelector('dialog').setAttribute('id','Task');
         document.querySelector('dialog').showModal();
         document.querySelector('#confirmBtn').value='task';
+        document.querySelector('#confirmBtn').textContent='Create Task';
     });
     //
     contentDiv.append(taskContainer,addTaskButton);

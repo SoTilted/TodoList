@@ -3,6 +3,9 @@
   margin: 0;
   box-sizing: border-box;
 }
+.showOverlay, #close {
+  display: none;
+}
 
 body {
   background-color: #323443;
@@ -26,6 +29,8 @@ h1 {
   font-size: 2rem;
   color: #78A083;
   font-weight: 1000;
+  
+  
 }
 .header {
   display: flex;
@@ -52,6 +57,8 @@ h1 {
   height: 30px;
   background-image: url(./assets/eye-remove-outline.svg);
   cursor: pointer;
+  position: absolute;
+  top: 90px;
 }
 
 .eye-logo:hover,.eye-logo-back:hover {
@@ -155,6 +162,7 @@ button.current-tab {
   color: #78A083;
   box-shadow: 10px 5px 5px rgba(0,0,0,0.3);
   transition: transform 0.35s;
+  word-break: break-all;
 }
 .task:hover{
   transform: scale(1.01);
@@ -262,6 +270,8 @@ input[type=date]::-webkit-calendar-picker-indicator {
 .popup-window h1 {
   margin-top: 20px;
   margin-right: 30px;
+  word-break: break-all;
+  white-space: normal;
 }
 .popup-window button {
   padding: 0;
@@ -428,6 +438,7 @@ form button:hover {
 }
 
 .project-card {
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -439,6 +450,8 @@ form button:hover {
   border-left: 8px solid green;
   box-shadow: 10px 5px 5px rgba(0,0,0,0.3);
   transition: transform 0.55s ;
+  word-break: break-all;
+
 }
 
 .project-card:hover {
@@ -450,7 +463,6 @@ form button:hover {
   color:#8bc1d0;
   font-size: 1.5rem;
   font-weight: 500;
-  
 }
 
 .project-grid {
@@ -535,3 +547,121 @@ form button:hover {
   cursor: pointer;
 }
 
+@media all and (max-width:500px){
+  body {
+    background-color: #323443;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+  .project-card h1 {
+    padding: 20px;
+  }
+  .project-header h1 {
+    margin-left: 50px;
+    word-break: break-all;
+  }
+  .side-bar {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    visibility: visible;
+    display: flex;
+    width: 200vw;
+    height: 200vh;
+    position: absolute;
+    top: -200%;
+    left: -200%;
+    justify-content: center;
+    align-items: center;
+    border-bottom-right-radius: 50%;
+  }
+  .side-bar button{
+    color: #50727B;
+    background-color: #35374B;
+  }
+  button.previous-tab {
+    background: #35374B;
+
+  }
+  button.current-tab {
+    color: #A3E7B5;
+    
+  }
+  .showOverlay {
+
+    display: block;
+    position: sticky;
+    top: 0px;
+    padding: 0;
+    justify-content: start;
+    width: 30px;
+    background-color: #78A083;
+    color: #323443;
+    box-shadow: 10px 5px 5px rgb(0, 0, 0, 0.5);
+    border-bottom-right-radius: 100%;
+  }
+  #close {
+    font-size: 2.5rem;
+    cursor: pointer;
+    background-color: #35374B;
+    border: none;
+    color: white;
+    position: absolute;
+    left: 15px;
+    top: 0;
+    z-index: 1000;
+    opacity: 0;
+}
+  .showOverlay p {
+    position: relative;
+    bottom: 5px;
+    right: 5px;
+  }
+  .content {
+    overflow: scroll;
+    flex: 1;
+    margin: 0 15px 0 15px;
+    border-top-left-radius: 8px;
+  }
+  .header {
+    justify-content: center;
+    padding: 0;
+  }
+  .task {
+    flex-direction: column;
+  }
+
+  form div{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  form div:nth-child(3n+1){
+    display: flex;
+    flex-direction: column;
+  }
+
+  form div:nth-child(3n+1) p{
+    flex-direction: row;
+  }
+
+  form div:last-child{
+    flex-direction: row;
+  }
+
+  textarea {
+    min-height: 100px;
+    min-width: 100px;
+    font-size: 1.3rem;
+  }
+
+  .popup-window {
+    margin: 20px;
+  }
+  
+}
