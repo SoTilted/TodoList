@@ -2,14 +2,22 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: 'MyFont';
 }
+
+@font-face {
+  font-family: 'MyFont';
+  src: url('./assets/Comfortaa-VariableFont_wght.ttf') format('truetype');
+  font-style: normal;
+}
+
 .showOverlay, #close {
   display: none;
 }
 
 body {
   background-color: #323443;
-  height: 100vh;
+  height: 100dvh;
   display: grid;
   grid-template-areas: "header header" "side-bar content" "footer footer";
   grid-template-columns: 1fr 4fr;
@@ -664,4 +672,11 @@ form button:hover {
     margin: 20px;
   }
   
+  input[type=date]{
+    font-size: 1.3rem;
+    width: 50px;
+    border: none;
+    background: none;
+    color:#A3E7B5;
+  }
 }
