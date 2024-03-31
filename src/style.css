@@ -679,4 +679,7 @@ form button:hover {
     background: none;
     color:#A3E7B5;
   }
+  .footer a{
+    padding: 10px;
+  }
 }
